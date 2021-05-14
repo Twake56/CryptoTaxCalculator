@@ -16,12 +16,26 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.VisualBasic" Version="10.3.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\file-upload\file-upload.component.ts" />
+    <None Remove="ClientApp\src\app\file-upload\file-upload.service.ts" />
+    <None Remove="ClientApp\src\app\tax-calculator\tax-calculator.component.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\file-upload\file-upload.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\file-upload\file-upload.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\tax-calculator\tax-calculator.component.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
@@ -50,5 +64,6 @@
       </ResolvedFileToPublish>
     </ItemGroup>
   </Target>
+  <PropertyGroup><TypeScriptExperimentalDecorators>true</TypeScriptExperimentalDecorators></PropertyGroup>
 
 </Project>
