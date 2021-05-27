@@ -26,5 +26,7 @@ namespace CryptoTaxCalculator.Parser
 
         public string Notes;
 
+        public float RemaingQuantity { get; set; }
+
     }
 }

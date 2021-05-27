@@ -30,6 +30,8 @@ namespace CryptoTaxCalculator.Controllers
                 }
                 CSVParser parser = new CSVParser(filePath);
                 List<Transaction> transactions = parser.Transactions;
+                Calculator calculator = new Calculator(Calculator.CalculateType.FIFO);
+                calculator.Calculate(transactions);
                 return StatusCode(200);
             }
             catch(Exception ex)

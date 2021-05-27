@@ -11,6 +11,7 @@ namespace CryptoTaxCalculator.Parser
     public class CSVParser
     {
         public List<Transaction> Transactions = new List<Transaction>();
+
         public CSVParser(string path)
         {
             using (StreamReader sr = new StreamReader(path))
@@ -32,6 +33,7 @@ namespace CryptoTaxCalculator.Parser
                         transaction.TransactionType = splitLine[1];
                         transaction.Asset = splitLine[2];
                         transaction.Quantity = float.Parse(splitLine[3]);
+                        transaction.RemaingQuantity = transaction.Quantity;
                         transaction.SpotPrice = decimal.Parse(splitLine[4]);
                         transaction.SubTotal = decimal.Parse(splitLine[5]);
                         transaction.TotalWithFees = decimal.Parse(splitLine[6]);
