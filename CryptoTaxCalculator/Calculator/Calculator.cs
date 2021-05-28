@@ -41,23 +41,28 @@ namespace CryptoTaxCalculator
             {
                 var buyGroup = groupedTransaction.ToList().Where(t => t.TransactionType == "Buy").ToList();
                 var sellGroup = groupedTransaction.ToList().Where(t => t.TransactionType == "Sell").ToList();
-                float feeRate = CalculateFeeRate(buyGroup.First());
+                float feeRate = CalculateFeeRate(sellGroup.First());
 
                 foreach(Transaction sell in sellGroup)
                 {
                     float sellQuant = sell.Quantity;
                     foreach(Transaction buy in buyGroup)
                     {
-                        if(sellQuant <= buy.Quantity)
+                        if(buy.RemaingQuantity == 0)
+                        {
+                            continue;
+                        }
+                        else if(sellQuant <= buy.Quantity)
                         {
                             buy.RemaingQuantity -= sellQuant;
-                            CreateOutputLine(sell, buy, sellQuant, feeRate);
+                            outputItems.Add(CreateOutputLine(sell, buy, sellQuant, feeRate));
+                            break;
                         }
                         else
                         {
                             buy.RemaingQuantity = 0;
                             sellQuant -= buy.Quantity;
-                            CreateOutputLine(sell, buy, sellQuant, feeRate);
+                            outputItems.Add(CreateOutputLine(sell, buy, buy.Quantity, feeRate));
                         }
                     }
                 }
@@ -86,7 +91,7 @@ namespace CryptoTaxCalculator
 
         private float CalculateFeeRate(Transaction transaction)
         {
-            return (float)transaction.Fees / (float)transaction.TotalWithFees;
+            return (float)transaction.Fees / (float)transaction.SubTotal;
         }
     }
 }
